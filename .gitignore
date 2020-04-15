@@ -1,0 +1,5 @@
+# Ignore vocpde
+.vscode
+
+# pycache
+__pycache__
