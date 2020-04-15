@@ -7,7 +7,7 @@ class Team():
         self.totalMatches = totalMatches
         self.rating = 1000
         self.gamesPlayed = 0
-        self.predicted = None
+        self.matchesPlayed = 1
 
     def __repr__(self) -> str:
         return str(self.totalMatches)
@@ -21,9 +21,12 @@ class Team():
     def setRating(self, newRating: int):
         self.rating = newRating
 
-    def updateRating(self, matchNumber: int, expectedWin = 0, unexpectedWin = 0, expectedLoss = 0, unexpectedLoss = 0):
+    def updateRating(self, matchNumber: int, expected = 0, unexpected = 0):
+        
         multiplier = (matchNumber / self.totalMatches) + 1
-        self.rating += (30 * expectedWin + 60 * unexpectedWin - 30 * expectedLoss - 60 * unexpectedLoss) * multiplier
+        self.rating += (30 * expected + 60 * unexpected) * multiplier
+        print(f"Team # {self.teamNumber}, multiplier {multiplier}, expected {expected}, unexpected {unexpected}")
+        self.gamesPlayed += 1
 
     def incrementMatches(self):
         self.totalMatches += 1

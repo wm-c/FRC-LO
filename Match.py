@@ -1,32 +1,61 @@
 from Team import Team
+from Alliance import Alliance
+import States
+
+
 
 class Match():
 
 
-        def __init__(self, red1: Team, red2: Team, red3: Team, blue1: Team, blue2: Team, blue3: Team):
-                self.red1 = red1
-                self.red2 = red2
-                self.red3 = red3
-                self.blue1 = blue1
-                self.blue2 = blue2
-                self.blue3 = blue3
+        def __init__(self, red1: Team, red2: Team, red3: Team, blue1: Team, blue2: Team, blue3: Team, winner: States.gameStates):
+                self.redAlliance = Alliance(red1, red2, red3)
+                self.blueAlliance = Alliance(blue1, blue2, blue3)
+                self.winner = winner
 
-        def guessWinner(self) -> int:
+        def guessWinner(self) -> States.gameStates:
                 '''Returns 0 for Blue, 1 for Red, 2 for Tie'''
-                redRating = self.red1.rating + self.red2.rating + self.red3.rating
-                blueRating = self.blue1.rating + self.blue2.rating + self.blue3.rating
+
+                redAlliance = self.redAlliance
+                blueAlliance = self.blueAlliance
+
+
+                # Calculates total team rating
+                redRating = redAlliance.rating
+                blueRating = blueAlliance.rating
+
+                # Finds predicted outcome based on total team rating
                 if(redRating >= blueRating):
+
+                        # Sets prediction to tie if ratings are equal
                         if(redRating == blueRating):
-                                self.red1.predicted,  self.red2.predicted, self.red3.predicted = 2
-                                self.blue1.predicted,  self.blue2.predicted, self.blue3.predicted = 2
-                                return "2"
-                        self.red1.predicted,  self.red2.predicted, self.red3.predicted = 1
-                        self.blue1.predicted,  self.blue2.predicted, self.blue3.predicted = 0
-                        return "1"
-                self.red1.predicted,  self.red2.predicted, self.red3.predicted = 0
-                self.blue1.predicted,  self.blue2.predicted, self.blue3.predicted = 1
-                return "tie"
+                                redAlliance.predicted = 0
+                                blueAlliance.predicted = 0
+                                return States.gameStates.Tie
 
+                        # Sets red alliance prediction to win
+                        redAlliance.predicted = 1
+                        blueAlliance.predicted = -1
 
+                # Sets blue alliance prediction to win
+                blueAlliance.predicted = 1
+                redAlliance.predicted = -1
 
-                
+        def updateMatchElo(self):
+                winner = self.winner
+                redAlliance = self.redAlliance
+                blueAlliance = self.blueAlliance
+
+                if(winner == States.gameStates.BlueVictory):
+                        blueAlliance.actual = 1
+                        redAlliance.actual = -1
+                        print("Blue Victory")
+                elif(winner == States.gameStates.RedVictory):
+                        redAlliance.actual = 1
+                        blueAlliance.actual = -1
+                        print("Red Victory")
+                else:
+                        redAlliance.actual = blueAlliance.actual = 0
+                        print("Tie")
+
+                blueAlliance.adjustElo()
+                redAlliance.adjustElo()   
