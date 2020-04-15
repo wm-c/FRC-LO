@@ -4,6 +4,7 @@ from Team import Team
 teams = {}
 
 
+
 for rows in range(data.index.stop):
     row = data.iloc[rows]
     teamNumbers = [row.Red_1, row.Red_2, row.Red_3, row.Blue_1, row.Blue_2, row.Blue_3]

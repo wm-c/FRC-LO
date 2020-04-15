@@ -1,33 +1,34 @@
 from Match import Match
 from Team import Team
+from getTeams import getTeams
+import getData
 import States
+from Alliance import Alliance
 
-team7174 = Team(7174, 12)
-team1114 = Team(1114, 12)
-team6878 = Team(6878, 12)
-team5032 = Team(5032, 12)
-team3683 = Team(3683, 12)
-team6977 = Team(6977, 12)
-team4343 = Team(4343, 12)
-team2198 = Team(2198, 12)
-team5031 = Team(5031, 12)
-team6978 = Team(6978, 12)
-team746 = Team(746, 12)
-team5834 = Team(5834, 12)
-team2405 = Team(2405, 12)
-team4519 = Team(4519, 12)
+teams = getTeams()
+matchTeams = getData.getRow(0)
+
+victorDict = {
+    "RED": States.gameStates.RedVictory,
+    "BLUE": States.gameStates.BlueVictory,
+    "TIE": States.gameStates.Tie
+
+}
+
+for match in range(getData.getSize()):
+    matchTeams = getData.getRow(match)
+    Match(
+        teams[matchTeams.Red_1], teams[matchTeams.Red_2], teams[matchTeams.Red_3], 
+        teams[matchTeams.Blue_1], teams[matchTeams.Blue_2], teams[matchTeams.Blue_3], 
+        victorDict[matchTeams.Winner], matchTeams.Red_Score, matchTeams.Blue_Score
+        )
+
+for team in teams:
+    print(f"{team},{teams[team].getRating()}")
+
+print(Alliance.correct / 2)
 
 
 
 
 
-
-match1 = Match(team7174, team1114, team6878, team5032, team3683, team6977, States.gameStates.BlueVictory)
-match6 = Match(team746, team5834, team2405, team2198, team6977, team4519,  States.gameStates.RedVictory)
-print(match1.guessWinner())
-print(team6977.rating)
-match1.updateMatchElo()
-print(team6977.rating)
-print(match6.guessWinner())
-match6.updateMatchElo()
-print(team6977.getRating())
