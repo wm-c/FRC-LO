@@ -21,12 +21,13 @@ class Team():
     def setRating(self, newRating: int):
         self.rating = newRating
 
-    def updateRating(self, matchNumber: int, expected = 0, unexpected = 0):
-        
-        multiplier = (matchNumber / self.totalMatches) + 1
-        self.rating += (30 * expected + 60 * unexpected) * multiplier
-        print(f"Team # {self.teamNumber}, multiplier {multiplier}, expected {expected}, unexpected {unexpected}")
-        self.gamesPlayed += 1
+    def updateRating(self, expected: int, unexpected: int):
+        multiplier = (self.matchesPlayed / self.totalMatches) + 1
+        ratingChange = (30 * expected + 60 * unexpected) * multiplier
+        x = self.rating + ratingChange
+        print(f"Team # {self.teamNumber}, multiplier {multiplier}, expected {expected}, unexpected {unexpected} \n Rating Change, {ratingChange}, prev. rating {self.rating}, new elo {x} \n")
+        self.rating += ratingChange
+        self.matchesPlayed += 1
 
     def incrementMatches(self):
         self.totalMatches += 1

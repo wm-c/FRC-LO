@@ -17,10 +17,10 @@ class Alliance():
         teamList = self.teamList
         
         if(self.actual == self.predicted):
-            [team.updateRating(team.matchesPlayed, expected = self.actual) for team in teamList]
+            [team.updateRating(self.actual, 0) for team in teamList]
             
         else:
-            [team.updateRating(team.matchesPlayed, unexpected = self.actual) for team in teamList]
+            [team.updateRating(0, self.actual) for team in teamList]
         
 
         
